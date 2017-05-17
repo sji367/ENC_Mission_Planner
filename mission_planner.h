@@ -13,7 +13,7 @@
 #include <boost/filesystem.hpp>
 #include "ENC_picker.h"
 #include "filedialog.h"
-//#include "gridENC.h"
+#include "gridENC.h"
 #include <cmath>
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
@@ -66,7 +66,7 @@ private:
     A_Star astar;
     L84 l84;
     Geodesy geod;
-    //Grid_ENC grid;
+    Grid_ENC grid;
     Vessel_Dimensions ShipMeta;
 
     double feet2meters;

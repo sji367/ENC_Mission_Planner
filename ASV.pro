@@ -35,8 +35,6 @@ INCLUDEPATH += "/home/sji367/moos-ivp/moos-ivp-reed/src/lib_ENC_util/"
 LIBS += -L/home/sji367/moos-ivp/moos-ivp-reed/lib/
 LIBS += -lENC_util
 
-#INCLUDEPATH += "home/sji367/linterp-master/src/"
-
 # Include boost
 LIBS += -lboost_filesystem -lboost_system
 

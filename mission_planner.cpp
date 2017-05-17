@@ -10,7 +10,7 @@ Mission_Planner::Mission_Planner(QWidget *parent) :
     astar = A_Star(8); // Set the number of directions searched to #
     geod = Geodesy();
     l84 = L84();
-    //grid  = Grid_ENC();
+    grid  = Grid_ENC();
 
     feet2meters = 0.3048;
     grid_size = 5;
@@ -28,7 +28,7 @@ Mission_Planner::Mission_Planner(QWidget *parent) :
     WPT_set = false;
     ShipMeta_set = false;
     grid_built = false;
-    ui->Mauniverablilty_slider->setRange(0, 4); // Limit the range to 0-4
+    ui->scrollArea_contents->findChild<QSlider*>("Mauniverablilty_slider")->setRange(0, 4); // Limit the range to 0-4
 }
 
 Mission_Planner::~Mission_Planner()
@@ -38,8 +38,8 @@ Mission_Planner::~Mission_Planner()
 
 void Mission_Planner::getOrigin()
 {
-    lat = QString(ui->lat_origin_in->toPlainText()).toDouble();
-    lon = QString(ui->lon_origin_in->toPlainText()).toDouble();
+    lat = QString(ui->scrollArea_contents->findChild<QTextEdit*>("lat_origin_in")->toPlainText()).toDouble();
+    lon = QString(ui->scrollArea_contents->findChild<QTextEdit*>("lon_origin_in")->toPlainText()).toDouble();
     geod.Initialise(lat,lon);
 }
 
@@ -47,12 +47,12 @@ void Mission_Planner::getShipMeta()
 {
     double length, width, draft, turn_radius;
     QString length_unit, speed_unit;
-    length = QString(ui->ship_length_in->toPlainText()).toDouble();
-    width = QString(ui->ship_width_in->toPlainText()).toDouble();
-    draft = QString(ui->ship_draft_in->toPlainText()).toDouble();
-    desired_speed = QString(ui->desired_speed_in->toPlainText()).toDouble();
-    length_unit = ui->unit_combobox->currentText();
-    speed_unit = ui->speedUnit_combobox->currentText();
+    length = QString(ui->scrollArea_contents->findChild<QTextEdit*>("ship_length_in")->toPlainText()).toDouble();
+    width = QString(ui->scrollArea_contents->findChild<QTextEdit*>("ship_width_in")->toPlainText()).toDouble();
+    draft = QString(ui->scrollArea_contents->findChild<QTextEdit*>("ship_draft_in")->toPlainText()).toDouble();
+    desired_speed = QString(ui->scrollArea_contents->findChild<QTextEdit*>("desired_speed_in")->toPlainText()).toDouble();
+    length_unit = ui->scrollArea_contents->findChild<QComboBox*>("unit_combobox")->currentText();
+    speed_unit = ui->scrollArea_contents->findChild<QComboBox*>("speedUnit_combobox")->currentText();
 
     // Convert length measurements to meters
     if (length_unit == "Feet")
@@ -69,7 +69,7 @@ void Mission_Planner::getShipMeta()
         desired_speed *= 463.0/900.0;
 
     // Calculate turn radius
-    turn_radius = (5-ui->Mauniverablilty_slider->value())*length;
+    turn_radius = (5-ui->scrollArea_contents->findChild<QSlider*>("Mauniverablilty_slider")->value())*length;
 
     // Set the ship's meta data
     astar.setDesiredSpeed(desired_speed);
@@ -80,16 +80,18 @@ void Mission_Planner::getShipMeta()
 
 void Mission_Planner::setENC_Meta(const QString &ENC, const QString &Scale)
 {
-    ui->ENC_text->setText(ENC);
-    ui->scale_text->setText(Scale);
+    ui->scrollArea_contents->findChild<QTextEdit*>("ENC_text")->setText(ENC);
+    ui->scrollArea_contents->findChild<QTextEdit*>("scale_text")->setText(Scale);
 }
 
 void Mission_Planner::on_setOriginButton_clicked()
 {
     int chart_scale = -2;
+
     getOrigin();
     ENC_Picker picker = ENC_Picker(lat,lon, sPath+"/src/ENCs/");
     picker.pick_ENC(chart_name, chart_scale);
+
     setENC_Meta(QString::fromStdString(chart_name), QString::number(chart_scale));
 }
 
@@ -106,7 +108,7 @@ void Mission_Planner::on_AStar_Button_clicked()
     bool valid_start, valid_finish;
 
     // Parse WPTs
-    WPT= ui->waypoints_in->toPlainText();
+    WPT= ui->scrollArea_contents->findChild<QTextEdit*>("waypoints_in")->toPlainText();
     WPT_list = WPT.split(":");
     num_WPTs = WPT_list.size();
 
@@ -156,48 +158,56 @@ void Mission_Planner::on_AStar_Button_clicked()
 
         // else print invalid wpts on screen
     }
-    ui->invalid_WPT_text->setText(allWPTs);
+    ui->scrollArea_contents->findChild<QTextEdit*>("invalid_WPT_text")->setText(allWPTs);
 }
 void Mission_Planner::NoPathFound(const QString &startWPT, const QString &endWPT)
 {
     QString message;
     message = "No path found between " + startWPT + " and " + endWPT;
-    ui->invalid_WPT_text->setText(message);
+    ui->scrollArea_contents->findChild<QTextEdit*>("invalid_WPT_text")->setText(message);
 }
 
 void Mission_Planner::invalidWPT(const QString &WPT)
 {
     QString message;
     message = "Invalid WPT: " + WPT;
-    ui->invalid_WPT_text->setText(message);
+    ui->scrollArea_contents->findChild<QTextEdit*>("invalid_WPT_text")->setText(message);
 }
 
 // Grid the ENC at the desired size given by the
 void Mission_Planner::on_setGridSizeButton_clicked()
 {
     double buffer_dist;
+    QStringList Chart;
+    string chart_folder;
+
+    // Remove the .000 from the end of the file
+    Chart = (QString::fromStdString(chart_name)).split(".");
+    chart_folder = Chart[0].toStdString();
+    string chart_path = sPath+"/src/ENCs/"+chart_folder+"/"+chart_name;
     // Assume that the ASV is a rectange and the buffer distance is the length of the diagonal
     buffer_dist = sqrt(pow(ShipMeta.getLength(), 2) + pow(ShipMeta.getWidth(), 2));
 
-    grid_size=QString(ui->ship_length_in->toPlainText()).toDouble();
-    //grid  = Grid_ENC(chart_name, grid_size, buffer_dist, geod);
+    grid_size=QString(ui->scrollArea_contents->findChild<QTextEdit*>("ship_length_in")->toPlainText()).toDouble();
+    grid  = Grid_ENC(chart_path, grid_size, buffer_dist, geod);
 
     // Make the grid for the ASV
-    //grid.MakeBaseMap(grid_size/2);
+    cout << chart_name << endl;
+    grid.MakeBaseMap(grid_size/2);
+    cout << "Done Gridding!" << endl;
 }
 
 
 void Mission_Planner::on_Write_button_clicked()
 {
-    outfile_type = ui->unit_combobox->currentText();
-    QString filepath = ui->outfile_name->toPlainText();
+    outfile_type = ui->scrollArea_contents->findChild<QComboBox*>("unit_combobox")->currentText();
+    QString filepath = ui->scrollArea_contents->findChild<QTextEdit*>("outfile_name")->toPlainText();
     if (outfile_type=="MOOS")
-        astar.buildMOOSFile(sPath+"/missions/", allWPTs.toStdString());
+        astar.buildMOOSFile(filepath.toStdString(), allWPTs.toStdString());
     else if (outfile_type == "L84")
     {
-        l84 = L84(sPath+"/missions/", allWPTs.toStdString(), lat, lon);
+        l84 = L84(filepath.toStdString(), allWPTs.toStdString(), lat, lon);
     }
-
 }
 
 // Get the user to input the location of Extended MOOS-IvP (moos-ivp-reed)
@@ -213,7 +223,7 @@ void Mission_Planner::on_Path_pushButton_clicked()
     {
         qsPath = newWindow.getPath();
     }
-    ui->Path_text->setText(qsPath);
+    ui->scrollArea_contents->findChild<QTextEdit*>("Path_text")->setText(qsPath);
     sPath = qsPath.toStdString();
 }
 
@@ -226,13 +236,13 @@ void Mission_Planner::on_pushButton_clicked()
     vector<int> x,y,z;
     vector<double> d;
     int Z;
+
     std::ifstream in("/home/sji367/moos-ivp/moos-ivp-reed/src/lib_ENC_util/terrain.cin");
     std::istream_iterator<Point> begin(in);
     std::istream_iterator<Point> end;
     Delaunay dt(begin, end);
 
     int minX, maxX, maxY, minY;
-
 
     for( Delaunay::Finite_faces_iterator fi = dt.finite_faces_begin(); fi != dt.finite_faces_end(); fi++)
       {
@@ -286,14 +296,14 @@ void Mission_Planner::on_pushButton_clicked()
                         Map[gridY][gridX]= Z;
                     }
                 }
-          }
+            }
         }
 
       }
     for (unsigned i = 0; i<Map.size(); i++){
       for (unsigned j=0; j<Map[0].size(); j++)
         {
-      cout << Map[i][j] << ",\t";
+            cout << Map[i][j] << ",\t";
         }
       cout << endl;
     }
@@ -317,5 +327,5 @@ void Mission_Planner::on_OutfilePath_pushButton_clicked()
     {
         qsPath = newWindow.getPath();
     }
-    ui->outfile_name->setText(qsPath);
+    ui->scrollArea_contents->findChild<QTextEdit*>("outfile_name")->setText(qsPath);
 }
