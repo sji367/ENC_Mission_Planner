@@ -10,7 +10,7 @@ Mission_Planner::Mission_Planner(QWidget *parent) :
     astar = A_Star(8); // Set the number of directions searched to #
     geod = Geodesy();
     l84 = L84();
-    grid  = Grid_ENC();
+    grid  = TIN_ENC();
 
     feet2meters = 0.3048;
     grid_size = 5;
@@ -189,11 +189,11 @@ void Mission_Planner::on_setGridSizeButton_clicked()
     buffer_dist = sqrt(pow(ShipMeta.getLength(), 2) + pow(ShipMeta.getWidth(), 2));
 
     grid_size=QString(ui->scrollArea_contents->findChild<QTextEdit*>("ship_length_in")->toPlainText()).toDouble();
-    grid  = Grid_ENC(chart_path, grid_size, buffer_dist, geod);
+    //grid  = TIN_ENC(chart_path, grid_size, buffer_dist, geod);
 
     // Make the grid for the ASV
     cout << chart_name << endl;
-    grid.MakeBaseMap(grid_size/2);
+    //grid.buildDelaunayPoly();
     cout << "Done Gridding!" << endl;
 }
 

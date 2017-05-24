@@ -62,7 +62,7 @@
           <x>0</x>
           <y>0</y>
           <width>1475</width>
-          <height>932</height>
+          <height>956</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="Mission_Planner_V">
@@ -81,6 +81,12 @@
              </property>
              <item>
               <widget class="QLabel" name="label_change_dir">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>22</pointsize>
@@ -105,6 +111,8 @@
                <property name="font">
                 <font>
                  <pointsize>15</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="text">
@@ -121,6 +129,12 @@
              </property>
              <item>
               <widget class="QLabel" name="label_path">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Path:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -131,7 +145,7 @@
                <property name="maximumSize">
                 <size>
                  <width>1000</width>
-                 <height>41</height>
+                 <height>30</height>
                 </size>
                </property>
                <property name="html">
@@ -150,10 +164,16 @@ p, li { white-space: pre-wrap; }
          <item>
           <layout class="QVBoxLayout" name="Origin_V">
            <property name="spacing">
-            <number>15</number>
+            <number>0</number>
            </property>
            <item>
             <widget class="QLabel" name="label_Origin_5">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>22</pointsize>
@@ -186,6 +206,12 @@ p, li { white-space: pre-wrap; }
                   <layout class="QHBoxLayout" name="Lat_H">
                    <item>
                     <widget class="QLabel" name="label_lat_origin">
+                     <property name="font">
+                      <font>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
                      <property name="text">
                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Lat:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
@@ -196,7 +222,7 @@ p, li { white-space: pre-wrap; }
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
-                       <height>41</height>
+                       <height>30</height>
                       </size>
                      </property>
                      <property name="html">
@@ -210,6 +236,12 @@ p, li { white-space: pre-wrap; }
                    </item>
                    <item>
                     <widget class="QLabel" name="label_8">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>30</height>
+                      </size>
+                     </property>
                      <property name="text">
                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;N&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
@@ -221,6 +253,12 @@ p, li { white-space: pre-wrap; }
                   <layout class="QHBoxLayout" name="Long_H">
                    <item>
                     <widget class="QLabel" name="label_lon_origin_3">
+                     <property name="font">
+                      <font>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
                      <property name="text">
                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Lon:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
@@ -231,7 +269,7 @@ p, li { white-space: pre-wrap; }
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
-                       <height>41</height>
+                       <height>30</height>
                       </size>
                      </property>
                      <property name="html">
@@ -265,6 +303,8 @@ p, li { white-space: pre-wrap; }
                  <property name="font">
                   <font>
                    <pointsize>14</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -283,6 +323,12 @@ p, li { white-space: pre-wrap; }
                 <layout class="QHBoxLayout" name="ENC_H">
                  <item>
                   <widget class="QLabel" name="label_ENC">
+                   <property name="font">
+                    <font>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;ENC:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -293,7 +339,7 @@ p, li { white-space: pre-wrap; }
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
-                     <height>41</height>
+                     <height>30</height>
                     </size>
                    </property>
                    <property name="html">
@@ -321,7 +367,7 @@ p, li { white-space: pre-wrap; }
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
-                     <height>41</height>
+                     <height>30</height>
                     </size>
                    </property>
                    <property name="html">
@@ -344,10 +390,16 @@ p, li { white-space: pre-wrap; }
          <item>
           <layout class="QVBoxLayout" name="Ship_dimensions_Grid_V">
            <property name="spacing">
-            <number>15</number>
+            <number>10</number>
            </property>
            <item>
             <widget class="QLabel" name="label_ShipMeta">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>22</pointsize>
@@ -357,7 +409,7 @@ p, li { white-space: pre-wrap; }
               </font>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;What are the ship's dimensions?&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;What are the ship's dimensions?&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
@@ -382,6 +434,12 @@ p, li { white-space: pre-wrap; }
                     <layout class="QHBoxLayout" name="Length_H">
                      <item>
                       <widget class="QLabel" name="label_ship_length">
+                       <property name="font">
+                        <font>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
                        <property name="text">
                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Length:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
@@ -392,7 +450,7 @@ p, li { white-space: pre-wrap; }
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>41</height>
+                         <height>30</height>
                         </size>
                        </property>
                       </widget>
@@ -403,6 +461,12 @@ p, li { white-space: pre-wrap; }
                     <layout class="QHBoxLayout" name="Width_H">
                      <item>
                       <widget class="QLabel" name="label_ship_width">
+                       <property name="font">
+                        <font>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
                        <property name="text">
                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Width:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
@@ -413,7 +477,7 @@ p, li { white-space: pre-wrap; }
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>41</height>
+                         <height>30</height>
                         </size>
                        </property>
                       </widget>
@@ -424,6 +488,12 @@ p, li { white-space: pre-wrap; }
                     <layout class="QHBoxLayout" name="Draft_H">
                      <item>
                       <widget class="QLabel" name="label_ship_draft">
+                       <property name="font">
+                        <font>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
                        <property name="text">
                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Draft:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
@@ -434,7 +504,7 @@ p, li { white-space: pre-wrap; }
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>41</height>
+                         <height>30</height>
                         </size>
                        </property>
                       </widget>
@@ -474,6 +544,9 @@ p, li { white-space: pre-wrap; }
                 <layout class="QHBoxLayout" name="Manuv_Speed_DDM_PB_H">
                  <item>
                   <layout class="QHBoxLayout" name="Manuv_Speed_DDM_H">
+                   <property name="spacing">
+                    <number>200</number>
+                   </property>
                    <item>
                     <layout class="QHBoxLayout" name="Manuv_H">
                      <property name="spacing">
@@ -481,8 +554,20 @@ p, li { white-space: pre-wrap; }
                      </property>
                      <item>
                       <widget class="QLabel" name="label_ship_manuverability">
+                       <property name="maximumSize">
+                        <size>
+                         <width>220</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
                        <property name="text">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Manueverablity:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Ship Manueverablity:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                       </widget>
                      </item>
@@ -506,6 +591,12 @@ p, li { white-space: pre-wrap; }
                        </item>
                        <item>
                         <widget class="QLabel" name="label_3">
+                         <property name="maximumSize">
+                          <size>
+                           <width>180</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
                          <property name="text">
                           <string>Low                                High</string>
                          </property>
@@ -523,9 +614,15 @@ p, li { white-space: pre-wrap; }
                         <widget class="QLabel" name="label_speed_3">
                          <property name="maximumSize">
                           <size>
-                           <width>65</width>
+                           <width>70</width>
                            <height>16777215</height>
                           </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
                          </property>
                          <property name="text">
                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Speed:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -537,7 +634,7 @@ p, li { white-space: pre-wrap; }
                          <property name="maximumSize">
                           <size>
                            <width>256</width>
-                           <height>41</height>
+                           <height>30</height>
                           </size>
                          </property>
                         </widget>
@@ -550,6 +647,12 @@ p, li { white-space: pre-wrap; }
                         <size>
                          <width>0</width>
                          <height>41</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>70</width>
+                         <height>16777215</height>
                         </size>
                        </property>
                        <property name="font">
@@ -572,11 +675,6 @@ p, li { white-space: pre-wrap; }
                          <string>ft/s</string>
                         </property>
                        </item>
-                       <item>
-                        <property name="text">
-                         <string/>
-                        </property>
-                       </item>
                       </widget>
                      </item>
                     </layout>
@@ -591,9 +689,17 @@ p, li { white-space: pre-wrap; }
                      <height>51</height>
                     </size>
                    </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -629,7 +735,7 @@ p, li { white-space: pre-wrap; }
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
-                     <height>41</height>
+                     <height>30</height>
                     </size>
                    </property>
                    <property name="text">
@@ -648,6 +754,8 @@ p, li { white-space: pre-wrap; }
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -666,10 +774,16 @@ p, li { white-space: pre-wrap; }
          <item>
           <layout class="QVBoxLayout" name="WPT_V">
            <property name="spacing">
-            <number>15</number>
+            <number>10</number>
            </property>
            <item>
             <widget class="QLabel" name="label_waypoints">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>22</pointsize>
@@ -748,6 +862,8 @@ p, li { white-space: pre-wrap; }
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -787,10 +903,16 @@ p, li { white-space: pre-wrap; }
          <item>
           <layout class="QVBoxLayout" name="Outfile_V">
            <property name="spacing">
-            <number>15</number>
+            <number>10</number>
            </property>
            <item>
             <widget class="QLabel" name="label_Origin">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>22</pointsize>
@@ -820,6 +942,8 @@ p, li { white-space: pre-wrap; }
                <property name="font">
                 <font>
                  <pointsize>15</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="text">
@@ -841,6 +965,12 @@ p, li { white-space: pre-wrap; }
                   <layout class="QHBoxLayout" name="Outfile_path_H">
                    <item>
                     <widget class="QLabel" name="label_outfile">
+                     <property name="font">
+                      <font>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
                      <property name="text">
                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Filename:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
@@ -857,7 +987,7 @@ p, li { white-space: pre-wrap; }
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
-                       <height>41</height>
+                       <height>30</height>
                       </size>
                      </property>
                     </widget>
@@ -902,6 +1032,8 @@ p, li { white-space: pre-wrap; }
                  <property name="font">
                   <font>
                    <pointsize>14</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">

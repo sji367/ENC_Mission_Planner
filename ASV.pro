@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mission_planner.cpp \
-    filedialog.cpp
+    filedialog.cpp \
+    tin_enc.cpp
 
 HEADERS  += mission_planner.h \
-    filedialog.h
+    filedialog.h \
+    tin_enc.h
 
 FORMS    += mission_planner.ui \
     filedialog.ui
@@ -34,6 +36,7 @@ LIBS += "-lgdal"
 INCLUDEPATH += "/home/sji367/moos-ivp/moos-ivp-reed/src/lib_ENC_util/"
 LIBS += -L/home/sji367/moos-ivp/moos-ivp-reed/lib/
 LIBS += -lENC_util
+LIBS += "-lENCGrid"
 
 # Include boost
 LIBS += -lboost_filesystem -lboost_system
