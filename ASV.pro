@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,11 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mission_planner.cpp \
     filedialog.cpp \
-    tin_enc.cpp
+    griddingthread.cpp \
+    originthread.cpp
 
 HEADERS  += mission_planner.h \
     filedialog.h \
-    tin_enc.h
+    griddingthread.h \
+    originthread.h
 
 FORMS    += mission_planner.ui \
     filedialog.ui
@@ -40,14 +42,5 @@ LIBS += "-lENCGrid"
 
 # Include boost
 LIBS += -lboost_filesystem -lboost_system
-
-# CGAL
-INCLUDEPATH +=   /usr/include/
-LIBS        += -L/usr/include/
-LIBS        += -lCGAL
-LIBS        += -lgmp
-LIBS        += -lmpfr
-QMAKE_CXXFLAGS += -frounding-math -O3
-
 
 QMAKE_CXXFLAGS += -std=c++11

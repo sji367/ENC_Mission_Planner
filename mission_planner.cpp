@@ -7,14 +7,14 @@ Mission_Planner::Mission_Planner(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    astar = A_Star(8); // Set the number of directions searched to #
+    astar = A_Star(1); // Set the number of directions searched to #
     geod = Geodesy();
     l84 = L84();
-    grid  = TIN_ENC();
 
     feet2meters = 0.3048;
     grid_size = 5;
     sPath = "~/moos-ivp/moos-ivp-reed";
+    doneGridding = false;
 
     lat = 0;
     lon = 0;
@@ -29,6 +29,16 @@ Mission_Planner::Mission_Planner(QWidget *parent) :
     ShipMeta_set = false;
     grid_built = false;
     ui->scrollArea_contents->findChild<QSlider*>("Mauniverablilty_slider")->setRange(0, 4); // Limit the range to 0-4
+
+    gthread = new GriddingThread(this);
+    qRegisterMetaType<QVector<int> >("QVector<int>");
+    connect(gthread, SIGNAL(newGrid(QVector<int>)), this, SLOT(onNewGridRow(QVector<int>)));
+    connect (gthread, SIGNAL(bounds(double, double)), this, SLOT(onGridBounds(double,double)));
+    connect(gthread, SIGNAL(StatusUpdate(QString)), this, SLOT(onGridStatusUpdate(QString)));
+
+    origin_thread = new OriginThread(this);
+    connect(origin_thread, SIGNAL(StatusUpdate(QString)), this, SLOT(onOriginStatusUpdate(QString)));
+    connect(origin_thread, SIGNAL(newChart(QString, double)), this, SLOT(onFoundENC(QString, double)));
 }
 
 Mission_Planner::~Mission_Planner()
@@ -86,13 +96,14 @@ void Mission_Planner::setENC_Meta(const QString &ENC, const QString &Scale)
 
 void Mission_Planner::on_setOriginButton_clicked()
 {
-    int chart_scale = -2;
-
     getOrigin();
-    ENC_Picker picker = ENC_Picker(lat,lon, sPath+"/src/ENCs/");
-    picker.pick_ENC(chart_name, chart_scale);
 
-    setENC_Meta(QString::fromStdString(chart_name), QString::number(chart_scale));
+    // Find the ENC with the smallest scale that includes the origin
+    origin_thread->start();
+    origin_thread->setLatLong(lat,lon);
+    origin_thread->setENCpath(sPath+"/src/ENCs/");
+
+
 }
 
 void Mission_Planner::on_setShipMeta_clicked()
@@ -102,10 +113,13 @@ void Mission_Planner::on_setShipMeta_clicked()
 
 void Mission_Planner::on_AStar_Button_clicked()
 {
+    QTime t;
     int num_WPTs =0;
     QString WPT, new_WPTs;
     QStringList WPT_list, start_xy, finish_xy;
     bool valid_start, valid_finish;
+
+    t.start();
 
     // Parse WPTs
     WPT= ui->scrollArea_contents->findChild<QTextEdit*>("waypoints_in")->toPlainText();
@@ -113,18 +127,20 @@ void Mission_Planner::on_AStar_Button_clicked()
     num_WPTs = WPT_list.size();
 
     // build grid
-    //vector<vector<int> > ENCmap = grid.getGriddedMap();
-    //astar.build_map(ENCmap);
-    // NEED TO ADD SOMETHING THAT ACTUALLY DOES THIS
-    astar.build_map(sPath+"/src/ENCs/Shape/grid/grid.csv");
+    astar.setConversionMeta(grid_size, MinX, MinY);
+    astar.setMap(Map);
+    //astar.build_map(sPath+"/src/ENCs/Shape/grid/grid.csv");
 
     for (int i=0; i<num_WPTs-1; i++)
     {
         // Get start/finsih WPTs
         start_xy = WPT_list[i].split(",");
         finish_xy = WPT_list[i+1].split(",");
-        astar.setStartFinish(start_xy[i].toDouble(), start_xy[i+1].toDouble(), finish_xy[i].toDouble(),finish_xy[i+1].toDouble());
-        
+        astar.setStartFinish_Grid(start_xy[i].toDouble(), start_xy[i+1].toDouble(), finish_xy[i].toDouble(),finish_xy[i+1].toDouble());
+
+        astar.getNM();
+        printf("Start: %i, %i\t Finish: %i, %i\n", astar.getStartX(), astar.getStartY(), astar.getFinishX(), astar.getFinishY());
+
         // Check waypoints
         astar.checkStartFinish();
         valid_start = astar.getStartValid();
@@ -133,6 +149,7 @@ void Mission_Planner::on_AStar_Button_clicked()
         // If the waypoints are valid, run A*
         if ((valid_start)&&(valid_finish))
         {
+            cout << "WPTs are valid\n";
             new_WPTs = QString::fromStdString(astar.AStar_Search());
             if (new_WPTs.isEmpty())
             {
@@ -144,6 +161,7 @@ void Mission_Planner::on_AStar_Button_clicked()
         // Otherwise print an error message and quit out of the loop
         else
         {
+            cout << "Invalid" << endl;
             if (!valid_start)
             {
                 invalidWPT(WPT_list[i]);
@@ -155,8 +173,7 @@ void Mission_Planner::on_AStar_Button_clicked()
                 break;
             }
         }
-
-        // else print invalid wpts on screen
+        cout << t.elapsed() << " ms" << endl;
     }
     ui->scrollArea_contents->findChild<QTextEdit*>("invalid_WPT_text")->setText(allWPTs);
 }
@@ -185,29 +202,64 @@ void Mission_Planner::on_setGridSizeButton_clicked()
     Chart = (QString::fromStdString(chart_name)).split(".");
     chart_folder = Chart[0].toStdString();
     string chart_path = sPath+"/src/ENCs/"+chart_folder+"/"+chart_name;
+
     // Assume that the ASV is a rectange and the buffer distance is the length of the diagonal
     buffer_dist = sqrt(pow(ShipMeta.getLength(), 2) + pow(ShipMeta.getWidth(), 2));
 
-    grid_size=QString(ui->scrollArea_contents->findChild<QTextEdit*>("ship_length_in")->toPlainText()).toDouble();
-    //grid  = TIN_ENC(chart_path, grid_size, buffer_dist, geod);
+    // Take the input from the text edit
+    grid_size=QString(ui->scrollArea_contents->findChild<QTextEdit*>("grid_size_in")->toPlainText()).toDouble();
 
-    // Make the grid for the ASV
-    cout << chart_name << endl;
-    //grid.buildDelaunayPoly();
-    cout << "Done Gridding!" << endl;
+    // If the grid size is bigger than the maximum size of the ASV, set the buffer distance
+    //  for all polygons in the grid to the grid size.
+    if (buffer_dist < grid_size)
+        buffer_dist = grid_size;
+
+    // Start a thread to do all of the gridding
+    gthread->start();
+    gthread->setGridSize(grid_size);
+    gthread->setChartPath(chart_path);
+    gthread->setBufferSize(buffer_dist);
+    gthread->setMOOS_Path(sPath+"/");
+    gthread->setGeodesy(geod);
 }
 
+void Mission_Planner::onNewGridRow(QVector<int> MAP)
+{
+    Map.push_back(MAP.toStdVector());
+}
+
+void Mission_Planner::onGridStatusUpdate(QString status)
+{
+    ui->scrollArea_contents->findChild<QTextEdit*>("GriddingStatus")->setText(status);
+}
+
+void Mission_Planner::onOriginStatusUpdate(QString status)
+{
+    ui->scrollArea_contents->findChild<QTextEdit*>("OriginStatus")->setText(status);
+}
+
+void Mission_Planner::onFoundENC(QString name, double scale)
+{
+    chart_name = name.toStdString();
+    setENC_Meta(name, QString::number(scale));
+}
 
 void Mission_Planner::on_Write_button_clicked()
 {
-    outfile_type = ui->scrollArea_contents->findChild<QComboBox*>("unit_combobox")->currentText();
+    outfile_type = ui->scrollArea_contents->findChild<QComboBox*>("outFile_combobox")->currentText();
     QString filepath = ui->scrollArea_contents->findChild<QTextEdit*>("outfile_name")->toPlainText();
+    cout << filepath.toStdString() << ", " << allWPTs.toStdString() << endl;
+
     if (outfile_type=="MOOS")
+    {
+        cout << "MOOS" << endl;
         astar.buildMOOSFile(filepath.toStdString(), allWPTs.toStdString());
+    }
     else if (outfile_type == "L84")
     {
         l84 = L84(filepath.toStdString(), allWPTs.toStdString(), lat, lon);
     }
+    cout << "Built File" << endl;
 }
 
 // Get the user to input the location of Extended MOOS-IvP (moos-ivp-reed)
@@ -225,88 +277,6 @@ void Mission_Planner::on_Path_pushButton_clicked()
     }
     ui->scrollArea_contents->findChild<QTextEdit*>("Path_text")->setText(qsPath);
     sPath = qsPath.toStdString();
-}
-
-void Mission_Planner::on_pushButton_clicked()
-{
-    vector<vector<int> > Map(10, vector<int>(10, -15));
-    OGRPolygon *poly;
-    OGRLinearRing *ring;
-    OGRPoint *point;
-    vector<int> x,y,z;
-    vector<double> d;
-    int Z;
-
-    std::ifstream in("/home/sji367/moos-ivp/moos-ivp-reed/src/lib_ENC_util/terrain.cin");
-    std::istream_iterator<Point> begin(in);
-    std::istream_iterator<Point> end;
-    Delaunay dt(begin, end);
-
-    int minX, maxX, maxY, minY;
-
-    for( Delaunay::Finite_faces_iterator fi = dt.finite_faces_begin(); fi != dt.finite_faces_end(); fi++)
-      {
-        x.clear(); y.clear(); z.clear();
-
-        for(int i=0; i<3; i++)
-        {
-            x.push_back(fi->vertex(i)->point().hx());
-            y.push_back(fi->vertex(i)->point().hy());
-            z.push_back(fi->vertex(i)->point().hz());
-
-            Map[y[i]][x[i]] = z[i]*10;
-        }
-        // Build the polygon of the Delaunay triangle
-        poly = (OGRPolygon*) OGRGeometryFactory::createGeometry(wkbPolygon);
-        ring = (OGRLinearRing *) OGRGeometryFactory::createGeometry(wkbLinearRing);
-        ring->addPoint(x[0],y[0]);
-        ring->addPoint(x[1],y[1]);
-        ring->addPoint(x[2],y[2]);
-        ring->addPoint(x[0],y[0]);
-
-        ring->closeRings();
-        poly->addRing(ring);
-        poly->closeRings();
-
-        minX = *min_element(x.begin(), x.end());
-        maxX = *max_element(x.begin(), x.end());
-
-        minY = *min_element(y.begin(), y.end());
-        maxY = *max_element(y.begin(), y.end());
-
-        // Now cycle though the points to get
-        for(int gridX=minX; gridX<= maxX; gridX++)
-        {
-            for (int gridY=minY; gridY<= maxY; gridY++)
-            {
-                point = (OGRPoint*) OGRGeometryFactory::createGeometry(wkbPoint);
-                point->setX(gridX);
-                point->setY(gridY);
-
-                if (point->Intersects(poly))//||point->Touches(poly))
-                {
-                    d.clear();
-                    // Calculate the distance to each vertex
-                    d.push_back(dist(x[0],y[0], gridX,gridY));
-                    d.push_back(dist(x[1],y[1], gridX,gridY));
-                    d.push_back(dist(x[2],y[2], gridX,gridY));
-                    if((d[0]!=0) && (d[1]!=0) && (d[2]!=0))
-                    {
-                        Z = int(round((1.0*z[0]/d[0]+ 1.0*z[1]/d[1] +1.0*z[2]/d[2])/(1.0/d[0]+1.0/d[1]+1.0/d[2])*10));
-                        Map[gridY][gridX]= Z;
-                    }
-                }
-            }
-        }
-
-      }
-    for (unsigned i = 0; i<Map.size(); i++){
-      for (unsigned j=0; j<Map[0].size(); j++)
-        {
-            cout << Map[i][j] << ",\t";
-        }
-      cout << endl;
-    }
 }
 
 double Mission_Planner::dist(int x1, int y1, int x2, int y2)

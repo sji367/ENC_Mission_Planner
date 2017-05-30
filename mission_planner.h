@@ -2,6 +2,7 @@
 #define MISSION_PLANNER_H
 
 #include <QMainWindow>
+#include <QTime>
 #include <string>
 #include "ogrsf_frmts.h" // for gdal/ogr
 #include "ogr_spatialref.h"
@@ -13,21 +14,11 @@
 #include <boost/filesystem.hpp>
 #include "ENC_picker.h"
 #include "filedialog.h"
-#include "gridENC.h"
-#include "tin_enc.h"
+#include "gridinterp.h"
 #include <cmath>
-
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Projection_traits_xy_3.h>
-#include <CGAL/Delaunay_triangulation_2.h>
-#include <fstream>
-#include <vector>
-#include "gdal_frmts.h" // for GDAL/OGR
-typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-typedef CGAL::Projection_traits_xy_3<K>  Gt;
-typedef CGAL::Delaunay_triangulation_2<Gt> Delaunay;
-typedef K::Point_3   Point;
-
+#include "griddingthread.h"
+#include "originthread.h"
+#include <QVector>
 
 namespace fs = ::boost::filesystem;
 
@@ -50,6 +41,16 @@ public:
     void invalidWPT(const QString &WPT);
     double dist(int x1, int y1, int x2, int y2);
 
+public slots:
+    // Gridding thread
+    void onNewGridRow(QVector<int> MAP);
+    void onGridBounds(double MINX, double MINY) {MinX = MINX, MinY = MINY; }
+    void onGridStatusUpdate(QString status);
+
+    // Origin Thread
+    void onFoundENC(QString name, double scale);
+    void onOriginStatusUpdate(QString status);
+
 private slots:
     void on_setOriginButton_clicked();
     void on_setShipMeta_clicked();
@@ -57,9 +58,6 @@ private slots:
     void on_setGridSizeButton_clicked();
     void on_Write_button_clicked();
     void on_Path_pushButton_clicked();
-
-    void on_pushButton_clicked();
-
     void on_OutfilePath_pushButton_clicked();
 
 private:
@@ -67,16 +65,20 @@ private:
     A_Star astar;
     L84 l84;
     Geodesy geod;
-    TIN_ENC grid;
     Vessel_Dimensions ShipMeta;
-
+    //Grid_Interp grid;
+    vector<vector<int> > Map;
     double feet2meters;
     double lat, lon, x_origin, y_origin;
-    qint8 grid_size;
+    double MinX, MinY;
+    double grid_size;
     double desired_speed;
     bool origin_set, ShipMeta_set, WPT_set, grid_built;
     QString outfile_type, output_path, moos_path, allWPTs;
-    std::string sPath, chart_name;
+    string sPath, chart_name;
+    bool doneGridding;
+    GriddingThread *gthread;
+    OriginThread *origin_thread;
 };
 
 #endif // MISSION_PLANNER_H

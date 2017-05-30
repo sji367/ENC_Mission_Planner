@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1587</width>
-    <height>1122</height>
+    <height>1044</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,19 +53,19 @@
          <x>0</x>
          <y>0</y>
          <width>1565</width>
-         <height>1040</height>
+         <height>961</height>
         </rect>
        </property>
-       <widget class="QWidget" name="layoutWidget">
+       <widget class="QWidget" name="">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>1475</width>
-          <height>956</height>
+          <x>1</x>
+          <y>1</y>
+          <width>1477</width>
+          <height>944</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="Mission_Planner_V">
+        <layout class="QVBoxLayout" name="verticalLayout_4">
          <property name="spacing">
           <number>50</number>
          </property>
@@ -87,6 +87,12 @@
                  <height>40</height>
                 </size>
                </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>51</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>22</pointsize>
@@ -105,6 +111,12 @@
                <property name="minimumSize">
                 <size>
                  <width>0</width>
+                 <height>51</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
                  <height>51</height>
                 </size>
                </property>
@@ -129,6 +141,12 @@
              </property>
              <item>
               <widget class="QLabel" name="label_path">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>50</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <weight>75</weight>
@@ -221,7 +239,7 @@ p, li { white-space: pre-wrap; }
                     <widget class="QTextEdit" name="lat_origin_in">
                      <property name="maximumSize">
                       <size>
-                       <width>16777215</width>
+                       <width>175</width>
                        <height>30</height>
                       </size>
                      </property>
@@ -230,7 +248,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;43.071959194444446&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;43.071959&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -268,7 +286,7 @@ p, li { white-space: pre-wrap; }
                     <widget class="QTextEdit" name="lon_origin_in">
                      <property name="maximumSize">
                       <size>
-                       <width>16777215</width>
+                       <width>175</width>
                        <height>30</height>
                       </size>
                      </property>
@@ -277,7 +295,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;-70.711610833333339&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;-70.711611&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -312,6 +330,42 @@ p, li { white-space: pre-wrap; }
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QLabel" name="label_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>13</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Status:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QTextEdit" name="OriginStatus">
+                 <property name="minimumSize">
+                  <size>
+                   <width>200</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>200</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </item>
              <item>
@@ -338,7 +392,7 @@ p, li { white-space: pre-wrap; }
                   <widget class="QTextBrowser" name="ENC_text">
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>200</width>
                      <height>30</height>
                     </size>
                    </property>
@@ -357,6 +411,12 @@ p, li { white-space: pre-wrap; }
                 <layout class="QHBoxLayout" name="Scale_H">
                  <item>
                   <widget class="QLabel" name="label_scale">
+                   <property name="font">
+                    <font>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Scale:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
@@ -388,36 +448,33 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="Ship_dimensions_Grid_V">
-           <property name="spacing">
-            <number>10</number>
-           </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
-            <widget class="QLabel" name="label_ShipMeta">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>22</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-               <underline>true</underline>
-              </font>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;What are the ship's dimensions?&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="Ship_dimensions_Grid_H">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
              <property name="spacing">
-              <number>50</number>
+              <number>10</number>
              </property>
+             <item>
+              <widget class="QLabel" name="label_ShipMeta">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>22</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;What are the ship's dimensions?&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
              <item>
               <layout class="QVBoxLayout" name="Ship_dimensions_V">
                <property name="spacing">
@@ -711,35 +768,58 @@ p, li { white-space: pre-wrap; }
                </item>
               </layout>
              </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <property name="spacing">
+              <number>10</number>
+             </property>
              <item>
-              <layout class="QVBoxLayout" name="Grid_V">
+              <widget class="QLabel" name="label_gridSize">
+               <property name="maximumSize">
+                <size>
+                 <width>300</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>22</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;What's the grid size?&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout">
                <item>
-                <widget class="QLabel" name="label_gridSize">
-                 <property name="font">
-                  <font>
-                   <pointsize>22</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                   <underline>true</underline>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;What's the grid size?&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="Grid_H">
+                <layout class="QHBoxLayout" name="horizontalLayout">
                  <item>
-                  <widget class="QLineEdit" name="grid_size_in">
-                   <property name="maximumSize">
+                  <widget class="QTextEdit" name="grid_size_in">
+                   <property name="minimumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>0</width>
                      <height>30</height>
                     </size>
                    </property>
-                   <property name="text">
-                    <string>5</string>
+                   <property name="maximumSize">
+                    <size>
+                     <width>175</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="html">
+                    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;5&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                   </widget>
                  </item>
@@ -760,6 +840,33 @@ p, li { white-space: pre-wrap; }
                    </property>
                    <property name="text">
                     <string>Set Grid Size</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="maximumSize">
+                    <size>
+                     <width>75</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Status: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QTextEdit" name="GriddingStatus">
+                   <property name="maximumSize">
+                    <size>
+                     <width>225</width>
+                     <height>30</height>
+                    </size>
                    </property>
                   </widget>
                  </item>
@@ -817,7 +924,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;16,169:29,0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;896,2507:920,2432&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                 </widget>
                </item>
@@ -1049,19 +1156,6 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QPushButton" name="pushButton">
-        <property name="geometry">
-         <rect>
-          <x>720</x>
-          <y>970</y>
-          <width>750</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
       </widget>
      </widget>
     </item>
@@ -1073,7 +1167,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1587</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
