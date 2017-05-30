@@ -31,9 +31,8 @@ Mission_Planner::Mission_Planner(QWidget *parent) :
     ui->scrollArea_contents->findChild<QSlider*>("Mauniverablilty_slider")->setRange(0, 4); // Limit the range to 0-4
 
     gthread = new GriddingThread(this);
-    qRegisterMetaType<QVector<int> >("QVector<int>");
-    connect(gthread, SIGNAL(newGrid(QVector<int>)), this, SLOT(onNewGridRow(QVector<int>)));
-    connect (gthread, SIGNAL(bounds(double, double)), this, SLOT(onGridBounds(double,double)));
+    qRegisterMetaType<vector<vector<int> > >("vector<vector<int> >");
+    connect(gthread, SIGNAL(newGrid(vector<vector<int> >, double, double)), this, SLOT(onNewGrid(vector<vector<int> >, double, double)));
     connect(gthread, SIGNAL(StatusUpdate(QString)), this, SLOT(onGridStatusUpdate(QString)));
 
     origin_thread = new OriginThread(this);
@@ -223,11 +222,6 @@ void Mission_Planner::on_setGridSizeButton_clicked()
     gthread->setGeodesy(geod);
 }
 
-void Mission_Planner::onNewGridRow(QVector<int> MAP)
-{
-    Map.push_back(MAP.toStdVector());
-}
-
 void Mission_Planner::onGridStatusUpdate(QString status)
 {
     ui->scrollArea_contents->findChild<QTextEdit*>("GriddingStatus")->setText(status);
@@ -248,7 +242,6 @@ void Mission_Planner::on_Write_button_clicked()
 {
     outfile_type = ui->scrollArea_contents->findChild<QComboBox*>("outFile_combobox")->currentText();
     QString filepath = ui->scrollArea_contents->findChild<QTextEdit*>("outfile_name")->toPlainText();
-    cout << filepath.toStdString() << ", " << allWPTs.toStdString() << endl;
 
     if (outfile_type=="MOOS")
     {

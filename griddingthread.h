@@ -24,8 +24,7 @@ public:
 
 
 signals:
-    void newGrid(QVector<int>);
-    void bounds(double, double);
+    void newGrid(vector<vector<int> >, double, double);
     void StatusUpdate(QString status);
 
 private:

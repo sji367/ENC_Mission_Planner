@@ -19,15 +19,8 @@ void GriddingThread::run()
     grid.Run(false);
 
     mutex.unlock();
-    vector<vector<int> > Map = grid.transposeMap();
-    QVector<int> row;
-    for (int i=0; i<Map.size(); i++)
-    {
-        row.clear();
-        row = QVector<int>::fromStdVector(Map[i]);
-        emit newGrid(row);
-    }
-    emit bounds(grid.getMinX(), grid.getMinY());
+
+    emit newGrid(grid.transposeMap(), grid.getMinX(), grid.getMinY());
     emit StatusUpdate("Finished Gridding!");
 }
 

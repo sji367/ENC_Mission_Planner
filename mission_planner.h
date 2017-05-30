@@ -43,8 +43,7 @@ public:
 
 public slots:
     // Gridding thread
-    void onNewGridRow(QVector<int> MAP);
-    void onGridBounds(double MINX, double MINY) {MinX = MINX, MinY = MINY; }
+    void onNewGrid(vector<vector<int> > MAP, double MINX, double MINY) {Map = MAP; MinX = MINX, MinY = MINY; }
     void onGridStatusUpdate(QString status);
 
     // Origin Thread

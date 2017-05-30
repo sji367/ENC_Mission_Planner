@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QtCore>
 #include <QtGui>
+#include <QFileSystemModel>
 
 namespace Ui {
 class fileDialog;
@@ -15,7 +16,7 @@ class fileDialog : public QDialog
 
 public:
     explicit fileDialog(QWidget *parent = 0);
-    QString getPath() {return sPath; };
+    QString getPath() {return sPath; }
     void UpdateLabel(const QString text);
     ~fileDialog();
 
