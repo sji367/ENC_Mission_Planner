@@ -7,19 +7,22 @@ Mission_Planner::Mission_Planner(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    astar = A_Star(1); // Set the number of directions searched to #
+    astar = A_Star(8); // Set the number of directions searched to 232
     geod = Geodesy();
     l84 = L84();
 
     feet2meters = 0.3048;
     grid_size = 5;
-    sPath = "~/moos-ivp/moos-ivp-reed";
+    MOOS_path = "~/moos-ivp/moos-ivp-reed";
     doneGridding = false;
 
     lat = 0;
     lon = 0;
     x_origin = 0;
     y_origin = 0;
+
+    MLLW = 0;
+    MHW = 0;
 
     ShipMeta = Vessel_Dimensions();
     desired_speed = 0;
@@ -33,10 +36,10 @@ Mission_Planner::Mission_Planner(QWidget *parent) :
     gthread = new GriddingThread(this);
     qRegisterMetaType<vector<vector<int> > >("vector<vector<int> >");
     connect(gthread, SIGNAL(newGrid(vector<vector<int> >, double, double)), this, SLOT(onNewGrid(vector<vector<int> >, double, double)));
-    connect(gthread, SIGNAL(StatusUpdate(QString)), this, SLOT(onGridStatusUpdate(QString)));
+    connect(gthread, SIGNAL(StatusUpdate(QString, QString)), this, SLOT(onGridStatusUpdate(QString, QString)));
 
     origin_thread = new OriginThread(this);
-    connect(origin_thread, SIGNAL(StatusUpdate(QString)), this, SLOT(onOriginStatusUpdate(QString)));
+    connect(origin_thread, SIGNAL(StatusUpdate(QString, QString)), this, SLOT(onOriginStatusUpdate(QString, QString)));
     connect(origin_thread, SIGNAL(newChart(QString, double)), this, SLOT(onFoundENC(QString, double)));
 }
 
@@ -100,9 +103,7 @@ void Mission_Planner::on_setOriginButton_clicked()
     // Find the ENC with the smallest scale that includes the origin
     origin_thread->start();
     origin_thread->setLatLong(lat,lon);
-    origin_thread->setENCpath(sPath+"/src/ENCs/");
-
-
+    origin_thread->setENCpath(MOOS_path+"/src/ENCs/");
 }
 
 void Mission_Planner::on_setShipMeta_clicked()
@@ -128,17 +129,13 @@ void Mission_Planner::on_AStar_Button_clicked()
     // build grid
     astar.setConversionMeta(grid_size, MinX, MinY);
     astar.setMap(Map);
-    //astar.build_map(sPath+"/src/ENCs/Shape/grid/grid.csv");
 
     for (int i=0; i<num_WPTs-1; i++)
     {
         // Get start/finsih WPTs
         start_xy = WPT_list[i].split(",");
         finish_xy = WPT_list[i+1].split(",");
-        astar.setStartFinish_Grid(start_xy[i].toDouble(), start_xy[i+1].toDouble(), finish_xy[i].toDouble(),finish_xy[i+1].toDouble());
-
-        astar.getNM();
-        printf("Start: %i, %i\t Finish: %i, %i\n", astar.getStartX(), astar.getStartY(), astar.getFinishX(), astar.getFinishY());
+        astar.setStartFinish(start_xy[i].toDouble(), start_xy[i+1].toDouble(), finish_xy[i].toDouble(),finish_xy[i+1].toDouble());
 
         // Check waypoints
         astar.checkStartFinish();
@@ -193,14 +190,20 @@ void Mission_Planner::invalidWPT(const QString &WPT)
 // Grid the ENC at the desired size given by the
 void Mission_Planner::on_setGridSizeButton_clicked()
 {
+    double MHW_offset;
     double buffer_dist;
     QStringList Chart;
     string chart_folder;
 
+    // Parse the tide station text file for MLLW and MHW Datums
+    getTideStationData();
+    MHW_offset = MHW-MLLW;
+
+
     // Remove the .000 from the end of the file
     Chart = (QString::fromStdString(chart_name)).split(".");
     chart_folder = Chart[0].toStdString();
-    string chart_path = sPath+"/src/ENCs/"+chart_folder+"/"+chart_name;
+    string chart_path = MOOS_path+"/src/ENCs/"+chart_folder+"/"+chart_name;
 
     // Assume that the ASV is a rectange and the buffer distance is the length of the diagonal
     buffer_dist = sqrt(pow(ShipMeta.getLength(), 2) + pow(ShipMeta.getWidth(), 2));
@@ -218,18 +221,21 @@ void Mission_Planner::on_setGridSizeButton_clicked()
     gthread->setGridSize(grid_size);
     gthread->setChartPath(chart_path);
     gthread->setBufferSize(buffer_dist);
-    gthread->setMOOS_Path(sPath+"/");
+    gthread->setMOOS_Path(MOOS_path+"/");
     gthread->setGeodesy(geod);
+    gthread->setMHW_offset(MHW_offset);
 }
 
-void Mission_Planner::onGridStatusUpdate(QString status)
+void Mission_Planner::onGridStatusUpdate(QString status, QString color)
 {
     ui->scrollArea_contents->findChild<QTextEdit*>("GriddingStatus")->setText(status);
+    ui->scrollArea_contents->findChild<QTextEdit*>("GriddingStatus")->setStyleSheet(color);
 }
 
-void Mission_Planner::onOriginStatusUpdate(QString status)
+void Mission_Planner::onOriginStatusUpdate(QString status, QString color)
 {
     ui->scrollArea_contents->findChild<QTextEdit*>("OriginStatus")->setText(status);
+    ui->scrollArea_contents->findChild<QTextEdit*>("OriginStatus")->setStyleSheet(color);
 }
 
 void Mission_Planner::onFoundENC(QString name, double scale)
@@ -269,7 +275,7 @@ void Mission_Planner::on_Path_pushButton_clicked()
         qsPath = newWindow.getPath();
     }
     ui->scrollArea_contents->findChild<QTextEdit*>("Path_text")->setText(qsPath);
-    sPath = qsPath.toStdString();
+    MOOS_path = qsPath.toStdString();
 }
 
 double Mission_Planner::dist(int x1, int y1, int x2, int y2)
@@ -291,4 +297,53 @@ void Mission_Planner::on_OutfilePath_pushButton_clicked()
         qsPath = newWindow.getPath();
     }
     ui->scrollArea_contents->findChild<QTextEdit*>("outfile_name")->setText(qsPath);
+}
+
+void Mission_Planner::getTideStationData()
+{
+    int cntr = 0;
+    string tideStation_name = ui->scrollArea_contents->findChild<QComboBox*>("tideStation_combobox")->currentText().toStdString();
+    QString tideStation_path = QString::fromStdString(MOOS_path+"/src/Tides/"+tideStation_name+"/"+tideStation_name+".txt");
+
+    QStringList parsed;
+
+
+    QFile file(tideStation_path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QTextStream in(&file);
+    while (!in.atEnd())
+    {
+        cntr++;
+        if (cntr==5)
+        {
+            QString line = in.readLine();
+            // Clear the old list
+            parsed.clear();
+
+            // Parse the file
+            parsed = line.split("=");
+            if(parsed.size() == 2)
+            {
+                MHW = parsed[1].toDouble();
+                cout << "MHW = " << MHW << endl;
+            }
+        }
+        else if (cntr==8)
+        {
+            QString line = in.readLine();
+            // Clear the old list
+            parsed.clear();
+
+            // Parse the file
+            parsed = line.split("=");
+            if(parsed.size() == 2)
+            {
+                MLLW = parsed[1].toDouble();
+                cout << "MLLW = " << MLLW << endl;
+            }
+        }
+    }
+
 }

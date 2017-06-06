@@ -9,7 +9,7 @@ OriginThread::OriginThread(QObject *parent) : QThread(parent)
 
 void OriginThread::run()
 {
-    emit StatusUpdate("Picking the ENC...");
+    emit StatusUpdate("Picking the ENC...", "QTextEdit{color: red;}");
 
     int chart_scale = -2;
     string chart_name;
@@ -18,6 +18,6 @@ void OriginThread::run()
     picker.pick_ENC(chart_name, chart_scale);
 
     emit newChart(QString::fromStdString(chart_name), chart_scale);
-    emit StatusUpdate("Found the ENC!");
+    emit StatusUpdate("Found the ENC!", "QTextEdit{color: green;}");
 
 }

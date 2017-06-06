@@ -25,10 +25,11 @@ public:
 
 signals:
     void newGrid(vector<vector<int> >, double, double);
-    void StatusUpdate(QString status);
+    void StatusUpdate(QString status, QString color);
 
 private:
     double grid_size, buffer_dist;
+    double MHW_Offset;
     string chart_path, MOOS_Path;
     Geodesy geod;
 

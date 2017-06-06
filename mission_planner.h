@@ -40,15 +40,16 @@ public:
     void NoPathFound(const QString &startWPT, const QString &endWPT);
     void invalidWPT(const QString &WPT);
     double dist(int x1, int y1, int x2, int y2);
+    void getTideStationData();
 
 public slots:
     // Gridding thread
     void onNewGrid(vector<vector<int> > MAP, double MINX, double MINY) {Map = MAP; MinX = MINX, MinY = MINY; }
-    void onGridStatusUpdate(QString status);
+    void onGridStatusUpdate(QString status, QString color);
 
     // Origin Thread
     void onFoundENC(QString name, double scale);
-    void onOriginStatusUpdate(QString status);
+    void onOriginStatusUpdate(QString status, QString color);
 
 private slots:
     void on_setOriginButton_clicked();
@@ -59,22 +60,24 @@ private slots:
     void on_Path_pushButton_clicked();
     void on_OutfilePath_pushButton_clicked();
 
+    //void on_tideStation_combobox_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::Mission_Planner *ui;
     A_Star astar;
     L84 l84;
     Geodesy geod;
     Vessel_Dimensions ShipMeta;
-    //Grid_Interp grid;
     vector<vector<int> > Map;
     double feet2meters;
     double lat, lon, x_origin, y_origin;
     double MinX, MinY;
     double grid_size;
     double desired_speed;
+    double MHW, MLLW;
     bool origin_set, ShipMeta_set, WPT_set, grid_built;
-    QString outfile_type, output_path, moos_path, allWPTs;
-    string sPath, chart_name;
+    QString outfile_type, output_path, allWPTs;
+    string MOOS_path, chart_name;
     bool doneGridding;
     GriddingThread *gthread;
     OriginThread *origin_thread;

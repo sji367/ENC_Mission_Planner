@@ -13,7 +13,6 @@ fileDialog::fileDialog(QWidget *parent) :
     dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
     dirmodel->setRootPath(sPath);
     ui->path_treeView->setModel(dirmodel);
-
 }
 
 fileDialog::~fileDialog()

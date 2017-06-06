@@ -21,7 +21,7 @@ public:
 
 signals:
     void newChart(QString, double);
-    void StatusUpdate(QString status);
+    void StatusUpdate(QString status, QString color);
 
 private:
     double lat, lon;

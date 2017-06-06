@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1587</width>
-    <height>1044</height>
+    <width>1582</width>
+    <height>955</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
     <property name="spacing">
      <number>5</number>
     </property>
-    <item row="0" column="0" colspan="2">
+    <item row="0" column="0">
      <widget class="QScrollArea" name="scrollArea">
       <property name="minimumSize">
        <size>
@@ -52,22 +52,22 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1565</width>
-         <height>961</height>
+         <width>1560</width>
+         <height>872</height>
         </rect>
        </property>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>1</x>
-          <y>1</y>
-          <width>1477</width>
-          <height>944</height>
+          <x>2</x>
+          <y>2</y>
+          <width>1539</width>
+          <height>845</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
          <property name="spacing">
-          <number>50</number>
+          <number>30</number>
          </property>
          <item>
           <layout class="QHBoxLayout" name="MOOS_Path_H">
@@ -110,7 +110,7 @@
               <widget class="QPushButton" name="Path_pushButton">
                <property name="minimumSize">
                 <size>
-                 <width>0</width>
+                 <width>225</width>
                  <height>51</height>
                 </size>
                </property>
@@ -449,6 +449,9 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="spacing">
+            <number>50</number>
+           </property>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <property name="spacing">
@@ -506,7 +509,7 @@ p, li { white-space: pre-wrap; }
                       <widget class="QTextEdit" name="ship_length_in">
                        <property name="maximumSize">
                         <size>
-                         <width>16777215</width>
+                         <width>175</width>
                          <height>30</height>
                         </size>
                        </property>
@@ -533,7 +536,7 @@ p, li { white-space: pre-wrap; }
                       <widget class="QTextEdit" name="ship_width_in">
                        <property name="maximumSize">
                         <size>
-                         <width>16777215</width>
+                         <width>175</width>
                          <height>30</height>
                         </size>
                        </property>
@@ -560,7 +563,7 @@ p, li { white-space: pre-wrap; }
                       <widget class="QTextEdit" name="ship_draft_in">
                        <property name="maximumSize">
                         <size>
-                         <width>16777215</width>
+                         <width>175</width>
                          <height>30</height>
                         </size>
                        </property>
@@ -602,7 +605,7 @@ p, li { white-space: pre-wrap; }
                  <item>
                   <layout class="QHBoxLayout" name="Manuv_Speed_DDM_H">
                    <property name="spacing">
-                    <number>200</number>
+                    <number>50</number>
                    </property>
                    <item>
                     <layout class="QHBoxLayout" name="Manuv_H">
@@ -664,6 +667,19 @@ p, li { white-space: pre-wrap; }
                     </layout>
                    </item>
                    <item>
+                    <spacer name="horizontalSpacer_2">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
                     <layout class="QHBoxLayout" name="Speed_DDM_H">
                      <item>
                       <layout class="QHBoxLayout" name="Speed_H">
@@ -690,7 +706,7 @@ p, li { white-space: pre-wrap; }
                         <widget class="QTextEdit" name="desired_speed_in">
                          <property name="maximumSize">
                           <size>
-                           <width>256</width>
+                           <width>175</width>
                            <height>30</height>
                           </size>
                          </property>
@@ -767,6 +783,91 @@ p, li { white-space: pre-wrap; }
                 </layout>
                </item>
               </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <property name="spacing">
+              <number>10</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_gridSize_2">
+               <property name="minimumSize">
+                <size>
+                 <width>195</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>300</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>22</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Pick a &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Tidal Station.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="tideStation_combobox">
+               <property name="minimumSize">
+                <size>
+                 <width>175</width>
+                 <height>41</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Fort Point, NH</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Seavey Island, ME</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Dover, NH</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Wells, ME</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Plum Island, MA</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Boston, MA</string>
+                </property>
+               </item>
+              </widget>
              </item>
             </layout>
            </item>
@@ -862,9 +963,15 @@ p, li { white-space: pre-wrap; }
                  </item>
                  <item>
                   <widget class="QTextEdit" name="GriddingStatus">
+                   <property name="minimumSize">
+                    <size>
+                     <width>200</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
-                     <width>225</width>
+                     <width>275</width>
                      <height>30</height>
                     </size>
                    </property>
@@ -924,7 +1031,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;896,2507:920,2432&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;-5,40:-15,105&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                 </widget>
                </item>
@@ -1148,6 +1255,19 @@ p, li { white-space: pre-wrap; }
                  </property>
                 </widget>
                </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
               </layout>
              </item>
             </layout>
@@ -1166,7 +1286,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1587</width>
+     <width>1582</width>
      <height>22</height>
     </rect>
    </property>
