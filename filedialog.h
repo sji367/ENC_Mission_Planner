@@ -18,6 +18,7 @@ public:
     explicit fileDialog(QWidget *parent = 0);
     QString getPath() {return sPath; }
     void UpdateLabel(const QString text);
+    void setStartPath(QString startPath);
     ~fileDialog();
 
 private slots:

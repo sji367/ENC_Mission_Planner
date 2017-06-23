@@ -11,9 +11,14 @@ fileDialog::fileDialog(QWidget *parent) :
     sPath = "~/";
     dirmodel = new QFileSystemModel(this);
     dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-    dirmodel->setRootPath(sPath);
+}
+
+void fileDialog::setStartPath(QString startPath)
+{
+    dirmodel->setRootPath(startPath);
     ui->path_treeView->setModel(dirmodel);
 }
+
 
 fileDialog::~fileDialog()
 {

@@ -5,6 +5,8 @@ Mission_Planner::Mission_Planner(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Mission_Planner)
 {
+    GDALAllRegister();
+
     ui->setupUi(this);
 
     astar = A_Star(8); // Set the number of directions searched to 232
@@ -40,7 +42,7 @@ Mission_Planner::Mission_Planner(QWidget *parent) :
 
     origin_thread = new OriginThread(this);
     connect(origin_thread, SIGNAL(StatusUpdate(QString, QString)), this, SLOT(onOriginStatusUpdate(QString, QString)));
-    connect(origin_thread, SIGNAL(newChart(QString, double)), this, SLOT(onFoundENC(QString, double)));
+    connect(origin_thread, SIGNAL(newChart(QString, QString, double)), this, SLOT(onFoundENC(QString, QString, double)));
 }
 
 Mission_Planner::~Mission_Planner()
@@ -157,14 +159,15 @@ void Mission_Planner::on_AStar_Button_clicked()
         // Otherwise print an error message and quit out of the loop
         else
         {
-            cout << "Invalid" << endl;
             if (!valid_start)
             {
+                cout << "Invalid Start Position." << endl;
                 invalidWPT(WPT_list[i]);
                 break;
             }
             if (!valid_finish)
             {
+                cout << "Invalid Finish Position." << endl;
                 invalidWPT(WPT_list[i+1]);
                 break;
             }
@@ -177,6 +180,7 @@ void Mission_Planner::NoPathFound(const QString &startWPT, const QString &endWPT
 {
     QString message;
     message = "No path found between " + startWPT + " and " + endWPT;
+    cout << message.toStdString() << endl;
     ui->scrollArea_contents->findChild<QTextEdit*>("invalid_WPT_text")->setText(message);
 }
 
@@ -184,7 +188,8 @@ void Mission_Planner::invalidWPT(const QString &WPT)
 {
     QString message;
     message = "Invalid WPT: " + WPT;
-    ui->scrollArea_contents->findChild<QTextEdit*>("invalid_WPT_text")->setText(message);
+    string a = message.toStdString();
+    ui->scrollArea_contents->findChild<QTextEdit*>("invalid_WPT_text")->setText(QString::fromStdString(a));
 }
 
 // Grid the ENC at the desired size given by the
@@ -238,10 +243,11 @@ void Mission_Planner::onOriginStatusUpdate(QString status, QString color)
     ui->scrollArea_contents->findChild<QTextEdit*>("OriginStatus")->setStyleSheet(color);
 }
 
-void Mission_Planner::onFoundENC(QString name, double scale)
+void Mission_Planner::onFoundENC(QString ENC_name, QString RNC_name, double scale)
 {
-    chart_name = name.toStdString();
-    setENC_Meta(name, QString::number(scale));
+    chart_name = ENC_name.toStdString();
+    RNC_Name = RNC_name;
+    setENC_Meta(ENC_name, QString::number(scale));
 }
 
 void Mission_Planner::on_Write_button_clicked()
@@ -268,6 +274,7 @@ void Mission_Planner::on_Path_pushButton_clicked()
 {
     QString qsPath;
     fileDialog newWindow;
+    newWindow.setStartPath("~/");
     newWindow.setModal(true);
     newWindow.UpdateLabel("Please click on the moos-ivp-reed directory.");
     if (newWindow.exec())
@@ -290,6 +297,7 @@ void Mission_Planner::on_OutfilePath_pushButton_clicked()
     //  through the file system until they find the moos-ivp-reed window.
     QString qsPath;
     fileDialog newWindow;
+    newWindow.setStartPath(QString::fromStdString(MOOS_path));
     newWindow.setModal(true);
     newWindow.UpdateLabel("Please click on the directory in which\n you want the file to be stored.");
     if (newWindow.exec())
@@ -345,5 +353,16 @@ void Mission_Planner::getTideStationData()
             }
         }
     }
+
+}
+
+void Mission_Planner::on_pushButton_clicked()
+{
+    RNC_Dialog RNC_planner;
+    RNC_planner.setModal(true);
+    RNC_planner.setMOOSPath(QString::fromStdString(MOOS_path));
+    RNC_planner.setRNCName(RNC_Name);
+    if (RNC_planner.exec())
+        cout << "inside" << endl;
 
 }

@@ -20,7 +20,7 @@ public:
     void setENCpath(string ENC) { ENC_Path = ENC; }
 
 signals:
-    void newChart(QString, double);
+    void newChart(QString, QString, double);
     void StatusUpdate(QString status, QString color);
 
 private:

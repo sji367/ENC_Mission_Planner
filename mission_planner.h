@@ -3,22 +3,29 @@
 
 #include <QMainWindow>
 #include <QTime>
+#include <QVector>
+
 #include <string>
-#include "ogrsf_frmts.h" // for gdal/ogr
-#include "ogr_spatialref.h"
+#include <vector>
+#include <cmath>
+#include <stdlib.h>
+#include <boost/filesystem.hpp>
+
+#include "ogrsf_frmts.h" // for ENC/shape files
+#include "ogr_spatialref.h" // for coordinate conversions
+#include <gdal_priv.h> // Rasterio
+
 #include "astar.h"
 #include "L84.h"
 #include "geodesy.h"
-#include <vector>
-#include <stdlib.h>
-#include <boost/filesystem.hpp>
 #include "ENC_picker.h"
+
 #include "filedialog.h"
 #include "gridinterp.h"
-#include <cmath>
 #include "griddingthread.h"
 #include "originthread.h"
-#include <QVector>
+#include "rnc_dialog.h"
+#include "autonomousvehicleproject.h"
 
 namespace fs = ::boost::filesystem;
 
@@ -48,7 +55,7 @@ public slots:
     void onGridStatusUpdate(QString status, QString color);
 
     // Origin Thread
-    void onFoundENC(QString name, double scale);
+    void onFoundENC(QString ENC_name, QString RNC_name, double scale);
     void onOriginStatusUpdate(QString status, QString color);
 
 private slots:
@@ -61,6 +68,8 @@ private slots:
     void on_OutfilePath_pushButton_clicked();
 
     //void on_tideStation_combobox_currentIndexChanged(const QString &arg1);
+
+    void on_pushButton_clicked();
 
 private:
     Ui::Mission_Planner *ui;
@@ -76,11 +85,12 @@ private:
     double desired_speed;
     double MHW, MLLW;
     bool origin_set, ShipMeta_set, WPT_set, grid_built;
-    QString outfile_type, output_path, allWPTs;
+    QString outfile_type, output_path, allWPTs, RNC_Name;
     string MOOS_path, chart_name;
     bool doneGridding;
     GriddingThread *gthread;
     OriginThread *origin_thread;
+    //RNC_Dialog *RNC_planner;
 };
 
 #endif // MISSION_PLANNER_H

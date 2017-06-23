@@ -21,6 +21,7 @@ public:
     void setBufferSize(double buffer) {buffer_dist = buffer; }
     void setMOOS_Path(string MOOS) { MOOS_Path = MOOS; }
     void setGeodesy(Geodesy Geod) { geod = Geodesy(Geod.getLatOrigin(), Geod.getLonOrigin()); }
+    void setMHW_offset(double MHW_offset) {MHW_Offset = MHW_offset; }
 
 
 signals:
